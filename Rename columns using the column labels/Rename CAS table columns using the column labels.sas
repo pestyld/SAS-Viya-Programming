@@ -30,10 +30,6 @@ proc cas;
 	
 	* Store the table from the cr dictionary *;
 	columnInfoTable = cr.ColumnInfo;
-	
-
-	* Create a list object *;
-	renameColumns = {};
 
 	* Create the counter *;
 	i = 0;
@@ -58,6 +54,7 @@ proc cas;
 	* Preview the CAS table *;
 	table.fetch / table = casTbl, to = 5;
 quit;
+
 
 * Terminate the CAS connection *;
 /* cas conn terminate; */
