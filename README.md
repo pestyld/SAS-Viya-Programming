@@ -1,9 +1,9 @@
 # CASL Code Snippets and Blog Post Scripts
 
 ## CASL Code Snippets
-Includes a variety SAS Viya CASL code snippets process data in the CAS server. The CAS server is distributed server that uses multiple machines to perform massively parallel processing (MPP). 
+This repo includes a variety CASL code snippets process data in the CAS server in SAS Viya. The CAS server is distributed server that uses multiple machines to perform massively parallel processing (MPP). 
 
-For more information visit the [SAS Viya documentation](https://go.documentation.sas.com/doc/en/pgmsascdc/v_032/casfun/titlepage.htm).
+For more information visit the [SAS Viya Documentation](https://go.documentation.sas.com/doc/en/pgmsascdc/v_032/casfun/titlepage.htm).
 
 
 ## SAS-Viya-Blogs
