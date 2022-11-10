@@ -1,6 +1,8 @@
 *************************************************;
 * RENAME COLUMNS USING THE COLUMN LABELS        *;
 *************************************************;
+* Connect to CAS *;
+cas conn;
 
 * Load the WATER_CLUSTER.sashdat table into CAS and preview ;
 proc cas;
@@ -56,3 +58,6 @@ proc cas;
 	* Preview the CAS table *;
 	table.fetch / table = casTbl, to = 5;
 quit;
+
+* Terminate the CAS connection *;
+/* cas conn terminate; */
