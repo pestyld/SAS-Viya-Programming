@@ -5,6 +5,8 @@
 * Connect to the CAS server and name the connection CONN *;
 cas conn;
 
+
+
 *************************************************;
 * Load the Demonstration Data into Memory       *;
 *************************************************;
@@ -28,9 +30,10 @@ quit;
 * Rename Columns in a CAS Table                *;
 *************************************************;
 proc cas;
+    * Reference the CAS table *;
 	casTbl = {name = "WARRANTY_CLAIMS", caslib = "casuser"};
 
-* Rename columns *;
+    * Rename columns *;
 	table.alterTable / 
 		name = casTbl['name'], caslib = casTbl['caslib'],
 		columns = {
@@ -39,7 +42,7 @@ proc cas;
 			{name = 'product_attribute_1', rename = 'Vehicle_Class'}
 		};
 
-* View column metadata *;
+    * View column metadata *;
 	table.columnInfo / table = casTbl;
 quit;
 
@@ -52,15 +55,17 @@ proc cas;
 	* Reference the CAS table *;
 	casTbl = {name = "WARRANTY_CLAIMS", caslib = "casuser"};
 
-	* Rename columns with the labels. Spaces replaced with underscores *;
+* Rename columns with the labels. Spaces replaced with underscores *;
+
+	*Store the results of the columnInfo action in a dictionary *;
 	table.columnInfo result=cr / table = casTbl;
 
-	* Loop over the column information table and create a list of dictionaries *;
-	i = 0;
+	* Loop over the columnInfo result table and create a list of dictionaries *;
+	listElementCounter = 0;
 	do columnMetadata over cr.ColumnInfo;
-		i = i + 1;
+		listElementCounter = listElementCounter + 1;
 		convertColLabel = tranwrd(columnMetadata['Label'],' ','_');
-		renameColumns[i] = {name = columnMetadata['Column'], rename = convertColLabel};
+		renameColumns[listElementCounter] = {name = columnMetadata['Column'], rename = convertColLabel};
 	end;
 
 	* Rename columns *;
