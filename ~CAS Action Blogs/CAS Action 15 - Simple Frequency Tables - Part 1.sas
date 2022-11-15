@@ -66,13 +66,11 @@ quit;
 
 
 *************************************************;
-* One Way Frequency with a Format               *;
+* Apply a SAS Format in the freq Action         *;
 *************************************************;
 proc cas;
 	casTbl = {name = "WARRANTY_CLAIMS", caslib = "casuser"};
-    simple.freq / 
-		table= casTbl, 
-		inputs = 'Claim_Repair_Start_Date';
+    simple.freq / table= casTbl, inputs = 'Claim_Repair_Start_Date';
 quit;
 
 
@@ -88,7 +86,7 @@ quit;
 
 
 *************************************************;
-* One Way Frequency on a Calculated Column      *;
+* Create a Calculated Column in the freq Action *;
 *************************************************;
 proc cas;
 	calculateMakePlatform = 'Make_Platform = catx("-",Make,Platform)';
@@ -101,5 +99,5 @@ proc cas;
 quit;
 
 
-
+* Terminate the CAS session *;
 cas conn terminate;
