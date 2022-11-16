@@ -48,13 +48,15 @@ proc cas;
 	casTbl = {name = "WARRANTY_CLAIMS", caslib = "casuser"};
     colNames = {'Model_Year', 
 				'Vehicle_Assembly_Plant', 
-				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}};
+				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}
+	};
     simple.freq / table= casTbl, inputs = colNames;
 quit;
 
 
+
 *************************************************;
-* Save Results as a SAS Data Set                *;
+* Save the Results as a SAS Data Set            *;
 *************************************************;
 proc cas;
 	* Reference the CAS table *;
@@ -63,16 +65,19 @@ proc cas;
 	* Specify the columns to analyze *;
     colNames = {'Model_Year', 
 				'Vehicle_Assembly_Plant', 
-				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}};
+				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}
+	};
 
 	* Analyze the CAS table *;
     simple.freq result = freq_cr / table= casTbl, inputs = colNames;
-	saveresult freq_cr dataout=work.warranty_freq;
+
+	* View the dictionary in the log *;
+	describe freq_cr;
+
+	* Save the resul table as a SAS data set *;
+	saveresult freq_cr['Frequency'] dataout=work.warranty_freq;
 quit;
 
-* View the SAS data set *;
-proc print data=work.warranty_freq;
-run;
 
 * Plot the SAS data set *;
 title justify=left height=16pt "Total Warranty Claims by Year";
@@ -89,7 +94,7 @@ quit;
 
 
 *************************************************;
-* Create a CAS Table                            *;
+* Save the Results as a CAS Table               *;
 *************************************************;
 proc cas;
 	* Reference the CAS table *;
@@ -98,9 +103,10 @@ proc cas;
 	* Specify the columns to analyze *;
     colNames = {'Model_Year', 
 				'Vehicle_Assembly_Plant', 
-				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}};
+				{name = 'Claim_Repair_Start_Date', format = 'yyq.'}
+    };
 
-	* Analyze the CAS table *;
+	* Analyze the CAS table and create a new CAS table *;
     simple.freq / 
 		table= casTbl, 
 		inputs = colNames,
@@ -109,9 +115,6 @@ proc cas;
 			caslib = 'casuser',
 			label = 'Frequency analysis by year, assembly plant and repair date by quarter'
 		};
-
-	* Preview the new CAS table *;
-	table.columnInfo / table = {name = 'warranty_freq', caslib = 'casuser'};
 quit;
 
 
@@ -119,7 +122,7 @@ quit;
 libname casuser cas caslib='casuser';
 
 
-* Plot the CAS table on the SAS Compute server *;
+* Plot the SAS data set *;
 title justify=left height=16pt "Total Warranty Claims by Year";
 proc sgplot data=casuser.warranty_freq noborder;
 	where _Column_ = 'Model_Year';
