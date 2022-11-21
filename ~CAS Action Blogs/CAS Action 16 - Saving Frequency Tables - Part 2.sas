@@ -1,7 +1,6 @@
 *************************************************;
-* CAS-Action! Simple Frequency Tables - Part 2  *;
+* CAS-Action! Saving Frequency Tables - Part 2  *;
 *************************************************;
-
 
 * Connect to the CAS server and name the connection CONN *;
 cas conn;
