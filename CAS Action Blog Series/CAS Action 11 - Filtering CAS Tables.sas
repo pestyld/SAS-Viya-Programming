@@ -89,6 +89,7 @@ quit;
 * Preview the new table *;
 proc cas;
     table.fetch / table='products';
+	table.tableDetails / table='products';
 quit;
 
 
