@@ -1,7 +1,8 @@
 * Specify a location for your output files. Otherwise delete the ODS statement below *;
-%let homedir=%sysget(HOME);
-%let path=&homedir/SAS Viya/CASL Code/Using columns with special characters in actions;
-%put &=path;
+/* %let homedir=%sysget(HOME); */
+
+%let fileName =  %scan(&_sasprogramfile,-1,'/');
+%let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 
 cas conn;
 libname casuser cas caslib='casuser';

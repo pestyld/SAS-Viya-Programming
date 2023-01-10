@@ -1,9 +1,10 @@
 * Specify a location for your output files *;
-%let homedir=%sysget(HOME);
-%let path=&homedir/SAS Viya/CASL Code/Create a data dictionary of all CAS tables;
+/* %let homedir=%sysget(HOME); */
+
+%let fileName =  %scan(&_sasprogramfile,-1,'/');
+%let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 
 
-cas conn;
 
 proc cas;
 

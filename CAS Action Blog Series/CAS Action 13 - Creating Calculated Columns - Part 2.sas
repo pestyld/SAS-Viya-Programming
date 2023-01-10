@@ -15,7 +15,7 @@ cas conn;
 libname casuser cas caslib="casuser";
 
 * Create the fake data by specifying the the path and file to create the fake data *;
-%let fake_data_path = /shared/home/Peter.Styliadis@sas.com/SAS Viya Blogs/fakeProductsData.sas;
+%let fake_data_path = /*fakeProductsData.sas*/;
 %include "&fake_data_path";
 
 

@@ -5,6 +5,7 @@ proc cas;
 
 	* View the data source files in a caslib and save the results *;
 	table.fileInfo result = fi / caslib = dataSourceCaslib;
+
 	* the results of saving an action result is a dictionary *;
 	describe fi;
 
@@ -20,7 +21,7 @@ proc cas;
 	table.fetch / table=outputCasTable;
 quit;
 
-* Preview the SAS data set *;
+* Preview the SAS data set and add a format *;
 proc print data=work.datasource_info;
- format ModTime datetime.;
+	format ModTime datetime.;
 run;
