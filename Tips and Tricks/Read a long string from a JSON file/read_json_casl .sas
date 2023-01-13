@@ -1,4 +1,9 @@
+*************************************************;
+* READ A JSON FILE AND CREATE A CAS TABLE       *;
+* JSON string is larger than 32k characters     *;
+*************************************************;
 
+* Current folder *;
 %let fileName =  %scan(&_sasprogramfile,-1,'/');
 %let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 
