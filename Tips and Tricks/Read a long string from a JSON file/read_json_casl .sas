@@ -3,7 +3,7 @@
 * JSON string is larger than 32k characters     *;
 *************************************************;
 
-* Current folder *;
+* Current folder - Make sure the program is saved *;
 %let fileName =  %scan(&_sasprogramfile,-1,'/');
 %let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 
