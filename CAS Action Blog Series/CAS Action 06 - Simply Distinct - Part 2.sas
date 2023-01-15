@@ -65,7 +65,8 @@ quit;
 *****;
 * Output to CSV *;
 
-%let outpath=/shared/home/Peter.Styliadis@sas.com/outfiles;
+%let outpath=%sysget(HOME); * Main home directory *;
+
 
 proc cas;
 

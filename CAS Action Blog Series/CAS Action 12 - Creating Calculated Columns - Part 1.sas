@@ -15,8 +15,13 @@ cas conn;
 libname casuser cas caslib="casuser";
 
 * Create the fake data by specifying the the path and file to create the fake data *;
-%let fake_data_path =/*fakeProductsData.sas*/;
+%let fileName =  %scan(&_sasprogramfile,-1,'/');
+%let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
+
+* Execute fake data program *;
+%let fake_data_path = &path./fakeProductsData.sas;
 %include "&fake_data_path";
+%cre8_fake_data(nRowsPerThread=10, nThreads = 10);
 
 
 *****;
