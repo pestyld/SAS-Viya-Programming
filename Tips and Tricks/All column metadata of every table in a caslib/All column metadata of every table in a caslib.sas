@@ -1,9 +1,17 @@
+* Current folder. SAS program must be saved to the location *; 
+%let fileName =  %scan(&_sasprogramfile,-1,'/');
+%let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
+
+
+
 cas conn;
 
 
+
+* Step 1 *;
 * Print all column metadata for each table in a caslib *;
 proc cas;
-    caslibName = 'ACADEMIC';
+    caslibName = 'Samples';
     table.tableInfo result=ti / caslib=caslibName;
     allCASTablesInCaslib = ti.TableInfo[,'Name'];
     do casTableName over allCASTablesInCaslib;
@@ -14,9 +22,11 @@ quit;
 
 
 
+
+* Step 2 *;
 * Stores the results of all column metadata of each table in a caslib in a single SAS data *;
 proc cas;
-    caslibName = 'ACADEMIC';
+    caslibName = 'Samples';
 
     * Get each table name in the specified caslib and store in a list *;
     table.tableInfo result=ti / caslib=caslibName;
@@ -41,6 +51,9 @@ proc cas;
 
     * Save it as a SAS data set *;
     saveresult ColumnMetadataTable dataout=work.allColumnMetadata;
+
+	* Save as a CAS table *;
+    saveresult ColumnMetadataTable caslib='casuser' casout='allColumnMetadata';
 quit;
 
 

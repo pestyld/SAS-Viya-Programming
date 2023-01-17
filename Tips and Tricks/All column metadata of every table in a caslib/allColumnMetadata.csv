@@ -1,0 +1,223 @@
+
+Year                                                     1  double              
+Month               Month                                2  double              
+Day                                                      3  double              
+Date                                                     4  double              
+Serial                                                   5  double              
+Property                                                 6  double              
+Address                                                  7  char                
+City                                                     8  char                
+Zip                                                      9  double              
+Lat                                                     10  double              
+Long                                                    11  double              
+Property_type       Property_type                       12  double              
+Meter_Location      Meter_Location                      13  char                
+Clli                                                    14  char                
+DMA                                                     15  double              
+Weekday                                                 16  double              
+Weekend                                                 17  double              
+Daily_W_C_M3                                            18  double              
+Week                Week                                19  double              
+US Holiday                                              20  char                
+CLUSTER             Cluster                             21  double              
+agency_cd                                                1  char                
+site_no                                                  2  double              
+Latitude                                                 3  double              
+Longitude                                                4  double              
+Hyd_Unit                                                 5  double              
+County                                                   6  char                
+Datum_Gage                                               7  double              
+NAD                                                      8  double              
+NAVD                                                     9  double              
+datetime                                                10  double              
+tz_cd                                                   11  char                
+Temperature_1Ft     Temperature_1Ft                     12  double              
+_02_00010_cd        02_00010_cd                         13  char                
+Specific_Conductance_1Ft  Specific_Conductance_1Ft                  14  double              
+_03_00095_cd        03_00095_cd                         15  char                
+PH_1Ft              PH_1Ft                              16  double              
+_04_00400_cd        04_00400_cd                         17  char                
+Turbidity_1FT       Turbidity_1FT                       18  double              
+_05_63680_cd        05_63680_cd                         19  char                
+Dissolved_Oxygen_1Ft  Dissolved_Oxygen_1Ft                  20  double              
+_06_00300_cd        06_00300_cd                         21  char                
+Temperature_6Ft     Temperature_6Ft                     22  double              
+_09_00010_cd        09_00010_cd                         23  char                
+Specific_Conductance_6Ft  Specific_Conductance_6Ft                  24  double              
+_10_00095_cd        10_00095_cd                         25  char                
+Ph_6Ft              Ph_6Ft                              26  double              
+_11_00400_cd        11_00400_cd                         27  char                
+Turbidity_6ft       Turbidity_6ft                       28  double              
+_12_63680_cd        12_63680_cd                         29  char                
+Dissolved_Oxygen_6Ft  Dissolved_Oxygen_6Ft                  30  double              
+_13_00300_cd        13_00300_cd                         31  char                
+Temperature_12Ft    Temperature_12Ft                    32  double              
+_16_00010_cd        16_00010_cd                         33  char                
+Specific_Conductance_12FT  Specific_Conductance_12FT                  34  double              
+_17_00095_cd        17_00095_cd                         35  char                
+Ph_12Ft             Ph_12Ft                             36  double              
+_18_00400_cd        18_00400_cd                         37  char                
+Turbidity_12FT      Turbidity_12FT                      38  double              
+_19_63680_cd        19_63680_cd                         39  char                
+Dissolved_Oxygen_12FT  Dissolved_Oxygen_12FT                  40  double              
+_20_00300_cd        20_00300_cd                         41  char                
+Temperature_14ft    Temperature_14ft                    42  double              
+_23_00010_cd        23_00010_cd                         43  char                
+Specific_Conductance_14ft  Specific_Conductance_14ft                  44  double              
+_24_00095_cd        24_00095_cd                         45  char                
+Ph_14ft             Ph_14ft                             46  double              
+_25_00400_cd        25_00400_cd                         47  char                
+Turbidity_14ft      Turbidity_14ft                      48  double              
+_26_63680_cd        26_63680_cd                         49  char                
+Dissolved_Oxygen_14ft  Turbidity_14ft                      50  double              
+_27_00300_cd        27_00300_cd                         51  char                
+
+
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  10  MMDDYY                              10  
+                 8                   4  BEST                                 4  
+                 8                   4  BEST                                 4  
+                28                  28  $CHAR                               28  
+                 7                   7  $CHAR                                7  
+                 8                   5  BEST                                 5  
+                 8                  10  BEST                                10  
+                 8                   9  BEST                                 9  
+                 8                   1  BEST                                 1  
+                 8                   8  $CHAR                                8  
+                 8                   8  $CHAR                                8  
+                 8                   1  BEST                                 1  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                27                  27  $CHAR                               27  
+                 8                  12                                       0  
+                 4                   4  $CHAR                                4  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 6                   6  $CHAR                                6  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  12                                       0  
+                 8                  21  DATETIME                            21  
+                 3                   3  $CHAR                                3  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+                 8                  12                                       0  
+                 1                   1  $CHAR                                1  
+
+
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  WATER_CLUSTER       Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 2  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+                 0  SW_LAKE_RT_SENSOR_WATERQUALITY  Samples             
+
+

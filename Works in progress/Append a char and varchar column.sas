@@ -19,6 +19,8 @@ proc cas;
 	table.columnInfo / table='char';
 quit;
 
+
+
 * ERROR - issue with difference column data types *;
 proc cas;
 	table.append /
