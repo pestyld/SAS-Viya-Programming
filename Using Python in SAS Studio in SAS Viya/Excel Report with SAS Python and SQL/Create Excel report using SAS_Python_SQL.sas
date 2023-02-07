@@ -5,7 +5,9 @@
 *********************************;
 * Set folder path and file name *;
 *********************************;
-%let path=/*Enter folder path */;
+* Current folder. SAS program must be saved to the location *; 
+%let fileName =  %scan(&_sasprogramfile,-1,'/');
+%let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 %let xlFileName = myExcelReport.xlsx;
 
 

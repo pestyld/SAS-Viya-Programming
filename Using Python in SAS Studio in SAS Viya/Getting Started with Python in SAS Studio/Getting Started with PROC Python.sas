@@ -38,7 +38,7 @@ quit;
 * Connect to the CAS Server *;
 cas conn;
 
-* Drop and load data to the CAS server *;
+* Drop and then load data to the CAS server *;
 proc casutil;
 	* Drop the global scope CAS table if it exists *;
 	droptable casdata='home_equity_cas_sas' incaslib="casuser" quiet;
