@@ -2,15 +2,13 @@
 * Ask the Expert - CAS Language                  *;
 **************************************************;
 
-* ERROR - Execute CASL without a connection to CAS *;
-proc cas;
-	about;
-quit;
 
+*****************************************************************;
+* Connect the SAS Client (SAS Compute Server) to the CAS Server *;
+*****************************************************************;
 
 * Make a connection to the CAS server *;
 cas conn;
-
 
 * View information about the CAS server *;
 proc cas;
@@ -45,8 +43,8 @@ proc cas;
 
 	print 'My first name is: ' firstName;
 	print 'My last name is : ' lastName;
-	print 'My full name is : ' lastName || ', ' || firstName;
-	print 'My full name is : ' cat(lastName,', ',firstName);
+	print 'My full name is (||) : ' lastName || ', ' || firstName;
+	print 'My full name is (cat()): ' cat(lastName,', ',firstName);
 quit;
 
 
@@ -76,6 +74,7 @@ proc cas;
 	x = 100;
 	y = 150;
 	totalValue = x + y;
+	print '*******************';
 	print totalValue;
 quit;
 
@@ -104,28 +103,29 @@ quit;
 
 * Create a simple list of strings *;
 proc cas;
-	languages = {'SAS', 'SQL', 'Python', 'CASL'};
-	describe languages;
-	print languages;
+	languagesForCAS = {'SAS', 'SQL', 'Python', 'CASL', 'REST','JAVA','R','LUA'};
+	describe languagesForCAS;
+	print languagesForCAS;
 quit;
 
 
-* Access elements in a list *;
+* Access elements in a list. CASL lists begin at position 1 *;
 proc cas;
 	languages = {'element1', 'element2', 'element3', 'element4'};
 	print languages[1];
 quit;
 
-
+* Select range (incluseive) *;
 proc cas;
-	languages = {'SAS', 'SQL', 'Python', 'CASL'};
+	languages = {'element1', 'element2', 'element3', 'element4'};
 	print languages[1:3];
 quit;
 
 
+* Select specific elements *;
 proc cas;
-	languages = {'SAS', 'SQL', 'Python', 'CASL'};
-	print languages[1:];
+	languages = {'element1', 'element2', 'element3', 'element4'};
+	print languages[2,4];
 quit;
 
 
@@ -140,10 +140,13 @@ quit;
 * Loop over a list *;
 proc cas;
 	myInfo = {'Peter', 37, 2, {'Gaea','Millie','Dakota'}};
+	counter = 0;
 	do i over myInfo;
-		print "Element: " i;
+		counter = counter + 1;
+		print "Element: " i ", Counter: " counter;
 	end;
 quit;
+
 
 * Access elements *;
 proc cas;
@@ -170,4 +173,82 @@ proc cas;
 	describe myInfo;
 	print myInfo;
 quit;
+
+
+* Accessing values in a dictionary *;
+proc cas;
+	myInfo = {
+			  name = 'Peter', 
+              age = 37, 
+			  kids = 2, 
+			  dogs = {'Gaea','Millie','Dakota'}
+	};
+
+	name = myInfo['name'];
+	totalKids = myInfo['kids'];
+
+	print name ' has ' totalKids ' kids.';
+quit;
+
+
+* Adding keys/value pairs to a dictionary *;
+proc cas;
+	myInfo = {
+			  name = 'Peter', 
+              age = 37, 
+			  kids = 2, 
+			  dogs = {'Gaea','Millie','Dakota'}
+	};
+	print myInfo;
+
+	print 'Add key to dictionary';
+	myInfo['newkey'] = 'New Value';
+	print myInfo;
+quit;
+
+
+* Loop over a dictionary *;
+proc cas;
+	myInfo = {
+			  name = 'Peter', 
+              age = 37, 
+			  kids = 2, 
+			  dogs = {'Gaea','Millie','Dakota'}
+	};
+
+	do key, value over myInfo;
+		print 'The key is: ' key ', and the value is ' value;
+	end;
+quit;
+
+
+
+*****************;
+* Result tables *;
+*****************;
+proc cas;
+   columnNames = {"col1", "col2", "col3"};
+   colTypes={"integer", "double", "string"};
+   table = newtable("My Table Name", columnNames, colTypes);
+
+   do i = 1 to 5;
+	     z = (string)i;
+	     do j = 1 to 5;
+		      x = (string)j;
+		      row = {i, 2.6 * j, "abc" || x || z};
+		      addrow(table, row);
+		    end;
+   	end;
+run;
+
+
+
+
+**************************************************;
+* Executing CAS actions                          *;
+**************************************************;
+proc cas;
+	table.caslibInfo;
+	
+
 
