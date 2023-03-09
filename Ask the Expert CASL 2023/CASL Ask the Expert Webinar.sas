@@ -227,19 +227,37 @@ quit;
 * Result tables *;
 *****************;
 proc cas;
-   columnNames = {"col1", "col2", "col3"};
-   colTypes={"integer", "double", "string"};
-   table = newtable("My Table Name", columnNames, colTypes);
+	* Create table structure *;
+   	columnNames = {"Name", "Age", "Food"};
+   	colTypes={"string", "integer", "string"};
+   	result_table = newtable("My Table Name", columnNames, colTypes);
+	
+	* Create rows in a list of lists *;
+	mydata = {
+		{'Peter', 37, 'Gyros'}   
+		{'Eva', 20, 'Muffins'},
+		{'Owen', 37, 'Ice Cream'},
+		{'Kristi', 20, 'Tacos'}
+	};
 
-   do i = 1 to 5;
-	     z = (string)i;
-	     do j = 1 to 5;
-		      x = (string)j;
-		      row = {i, 2.6 * j, "abc" || x || z};
-		      addrow(table, row);
-		    end;
-   	end;
-run;
+	* Add rows to result table *;
+	do row over mydata;
+		addrow(result_table, row);
+	end;
+
+	* Print result table object and it's metadata *;
+	print result_table;
+	describe result_table;
+
+	* Print subset of rows and columns of the table *;
+	print (result_table            /* Result table */
+		   .where(Age > 30)        /* Filter the table */
+		   [,{'Name','Food'}]);    /* Select all rows and only the Name and Food columns */
+
+
+	* Save the result table as a SAS data set *;
+	saveresult result_table dataout=work.myresulttable;
+quit;
 
 
 
@@ -249,6 +267,7 @@ run;
 **************************************************;
 proc cas;
 	table.caslibInfo;
+quit;
 	
 
 
