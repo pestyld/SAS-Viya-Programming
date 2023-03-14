@@ -226,28 +226,36 @@ quit;
 *****************;
 * Result tables *;
 *****************;
+
+* Create and view a result table *;
 proc cas;
 	* Create table structure *;
    	columnNames = {"Name", "Age", "Food"};
    	colTypes={"string", "integer", "string"};
-   	result_table = newtable("My Table Name", columnNames, colTypes);
+   	result_table = newtable("My Table Name", columnNames, colTypes,
+							{'Peter', 37, 'Gyros'}   
+							{'Eva', 20, 'Muffins'},
+							{'Owen', 37, 'Ice Cream'},
+							{'Kristi', 20, 'Tacos'});
 	
-	* Create rows in a list of lists *;
-	mydata = {
-		{'Peter', 37, 'Gyros'}   
-		{'Eva', 20, 'Muffins'},
-		{'Owen', 37, 'Ice Cream'},
-		{'Kristi', 20, 'Tacos'}
-	};
-
-	* Add rows to result table *;
-	do row over mydata;
-		addrow(result_table, row);
-	end;
 
 	* Print result table object and it's metadata *;
 	print result_table;
 	describe result_table;
+quit;
+
+
+* Filter a result table and save a result table as a SAS data set*;
+proc cas;
+	* Create table structure *;
+   	columnNames = {"Name", "Age", "Food"};
+   	colTypes={"string", "integer", "string"};
+   	result_table = newtable("My Table Name", columnNames, colTypes,
+							{'Peter', 37, 'Gyros'}   
+							{'Eva', 20, 'Muffins'},
+							{'Owen', 37, 'Ice Cream'},
+							{'Kristi', 20, 'Tacos'});
+
 
 	* Print subset of rows and columns of the table *;
 	print (result_table            /* Result table */
@@ -255,19 +263,32 @@ proc cas;
 		   [,{'Name','Food'}]);    /* Select all rows and only the Name and Food columns */
 
 
+	* Return a list from the column in the result table *;
+	nameList = getcolumn(result_table,'Name');
+	print nameList;
+	describe nameList;
+
 	* Save the result table as a SAS data set *;
 	saveresult result_table dataout=work.myresulttable;
 quit;
 
+* Use traditional SAS programming on a SAS table *;
+proc sgplot data=work.myresulttable;
+	vbar Name / response=Age;
+run;
 
 
 
 **************************************************;
 * Executing CAS actions                          *;
 **************************************************;
+
+* Execute and VIEW the results of a CAS action *;
 proc cas;
 	table.caslibInfo;
 quit;
+
+
 	
 
 
