@@ -21,7 +21,7 @@
 ************************************************************************************/
 
 
-* Connect to the CAS server through the SAS client (Compute server) *;
+* If necessary, connect to the CAS server through the SAS client (Compute server) *;
 cas conn;
 
 **************************************************;
@@ -29,7 +29,7 @@ cas conn;
 **************************************************;
 * CAS actions are processed in the distributed CAS server *;
 
-* Execute and view the results of a CAS action *;
+* View available caslibs the distributed CAS server has access to with the table.caslibInfo CAS action *;
 proc cas;
 	table.caslibInfo;
 quit;
@@ -85,6 +85,7 @@ quit;
 
 
 * Load a data source file into memory as a distributed CAS table *;
+* If you have used the pandas library before, this is like loading a file into memory as a DataFrame *;
 proc cas;
 	table.loadTable /
 		path = 'RAND_RETAILDEMO.sashdat', caslib = 'samples',
@@ -93,27 +94,29 @@ proc cas;
 			caslib = 'casuser',   /* Output in-memory space */
 			replace = TRUE        /* Replace if it already exists */
 		};
+quit;
 
+
+* View the new distributed CAS table *;
+proc cas;
 	* View available in-memory tables in the Casuser caslib to confirm retail is available *;
 	table.tableInfo / caslib = 'casuser';
 
 	* View information about the distributed retail CAS table *;
 	table.tableDetails / name = 'retail', caslib = 'casuser';
-
-	* View 10 rows of the retail CAS table *;
-	table.fetch / 
-		table = {name = 'retail', caslib = 'casuser'}, 
-		to = 10;
 quit;
 
 
 * Explore an in-memory CAS table *;
+* CAS actions will process the data in the distributed CAS server and return results to the client (SAS compute) *;
 proc cas;
 	* Reference the CAS table in the dictionary *;
 	retailTbl = {name = 'retail', caslib = 'casuser'};
 
 	* Preview 5 rows of the retail CAS table *;
-	table.fetch / table = retailTbl, to = 5;
+	table.fetch / 
+		table = retailTbl, 
+		to = 5;
 
 	* View column attributes of the retail CAS table *;
 	table.columnInfo / table = retailTbl;
@@ -129,6 +132,10 @@ quit;
 
 ******************************************************************;
 * GOAL: Plot the frequency values of loyalty_card and Department *;
+******************************************************************;
+* 1. Use the CAS server to process data in the CAS server        *;
+* 2. Store the summarized results as a SAS table                 *;
+* 3. Visualize and report using traditional SAS programming      *;
 ******************************************************************;
 
 * Use the freq action to summarize the data in the distributed CAS server *;
@@ -160,8 +167,11 @@ proc cas;
 
 	* Alternate method *;
 	*rtbl = freqResults['Frequency'];
+
+	* Save the smaller summarized results as a SAS table *;
 	saveresult rtbl dataout=work.retailFreq;
 quit;
+* Check the WORK library on the compute server. Notice a new SAS table was created *;
 
 
 *****************************************************;
@@ -169,7 +179,7 @@ quit;
 *****************************************************;
 * Visualize the summarized data from the CAS server *;
 * on the compute server using traditional SAS and   *;
-* export to Excel.                                  *;
+* export the results to Excel.                      *;
 *****************************************************;
 
 ods excel file="&currentPath/ExcelReport.xlsx";
@@ -213,6 +223,14 @@ proc cas;
 			order by TotalCount;
 	endSource;
 
+/* Alternate method */
+/* myQuery = ' */
+/* 		select distinct Department, count (*) as TotalCount */
+/* 			from casuser.retail */
+/* 			group by Department */
+/* 			order by TotalCount; */
+/* '; */
+
 	fedSQL.execDirect /
 		query = myQuery;
 quit;
@@ -237,15 +255,17 @@ proc cas;
 			 casuser.loyalty_card
 			 casuser.other;
 			set casuser.retail;
-			if loytalty_card = 0 then output casuser.no_loyalty_card;
+			if loyalty_card = 0 then output casuser.no_loyalty_card;
 	    	else if loyalty_card = 1 then output casuser.loyalty_card;
 			else output casuser.other;
 		run;
 	endsource;
 
+	* Execute DATA step code *;
 	dataStep.runCode /
 		code = myDataStepCode;
 
+	* View the new CAS tables *;
 	table.tableInfo / caslib = 'casuser';
 quit;
 	

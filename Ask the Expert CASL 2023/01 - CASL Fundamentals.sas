@@ -69,7 +69,6 @@ ods excel close;
 *****************************************************************;
 * Connect the SAS Client (SAS Compute Server) to the CAS Server *;
 *****************************************************************;
-* https://go.documentation.sas.com/doc/en/pgmsascdc/default/casfun/titlepage.htm *;
 
 * Make a connection to the CAS server *;
 cas conn;
@@ -112,7 +111,7 @@ proc cas;
 	print 'My first name is: ' firstName;
 	print 'My last name is : ' lastName;
 	print 'My full name is (||) : ' lastName || ', ' || firstName;
-	print 'My full name is (cat()): ' cat(lastName,', ',firstName);
+	print 'My full name is (cat function): ' cat(lastName,', ',firstName);
 quit;
 
 
@@ -131,14 +130,12 @@ proc cas;
 
 * Create a double variable *;
 	y = 200.5;
-	print '*******************';
 	describe y;
 	print y;
 	print '*******************';
 
 * Create an expression *;
 	totalValue = x + y;
-	print '*******************';
 	print totalValue;
 	describe totalValue;
 	print '*******************';
@@ -213,13 +210,13 @@ quit;
 
 * Loop over a list *;
 proc cas;
-	myInfo = {'Peter', 37, 2, {'Gaea','Millie','Dakota'}};
+	myInfo = {'Peter', 35, 2, {'Gaea','Millie','Dakota'}};
 	counter = 0;
 
 	* Loop over the list *;
-	do listElement over myInfo;
+	do i over myInfo;
 		counter = counter + 1;
-		print "List value: " listElement ", Counter: " counter;
+		print "List value: " i ", Counter: " counter;
 	end;
 quit;
 
@@ -295,7 +292,7 @@ proc cas;
 	print '*******************';
 quit;
 
-
+* Do I need this here? *;
 * Loop over a dictionary *;
 proc cas;
 	myInfo = {
@@ -316,25 +313,26 @@ quit;
 * Result tables *;
 *****************;
 /**************************************************************************************
-- These are simply in-memory tables, there file copy on disk
-- Results tables reside on the SAS compute server
+- These are simply in-memory tables, there is no file on disk like traditional SAS tables
+- Results tables reside on the SAS compute server's memory
 - These tables are not processed in the CAS server *;
 - Similar to DataFrames if you have used the Python pandas package
 **************************************************************************************/
 
 * Create and view a result table *;
 proc cas;
-	* Create table structure *;
+	* Create result structure *;
    	columnNames = {"Name", "Age", "Food"};
    	colTypes={"string", "integer", "string"};
+
+	* Create result table *;
    	result_table = newtable("My Table Name", columnNames, colTypes,
 							{'Peter', 35, 'Gyros'}   
 							{'Eva', 20, 'Muffins'},
 							{'Owen', 37, 'Ice Cream'},
 							{'Kristi', 20, 'Tacos'});
 	
-
-	* Print result table object and it's metadata *;
+	* Print the result table and it's data type *;
 	print result_table;
 	describe result_table;
 quit;
@@ -342,7 +340,7 @@ quit;
 
 * Filter a result table and save a result table as a SAS data set  *;
 proc cas;
-	* Create table structure *;
+	* Create result table *;
    	columnNames = {"Name", "Age", "Food"};
    	colTypes={"string", "integer", "string"};
    	result_table = newtable("My Table Name", columnNames, colTypes,
@@ -360,7 +358,7 @@ proc cas;
 
 
 	* Return a list from a column of the result table *;
-	nameList = getcolumn(result_table,'Name');
+	nameList = getcolumn(result_table, 'Name');
 	print nameList;
 	describe nameList;
 
@@ -370,7 +368,7 @@ quit;
 
 
 * Use traditional SAS programming the SAS table created from the CASL result table *;
-title height=16pt "My friends and family food choices";
+title height=16pt "Age of my friends and family in food choices SAS table ";
 proc print data=work.myresulttable;
 run;
 
