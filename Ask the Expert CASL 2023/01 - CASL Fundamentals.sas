@@ -21,25 +21,20 @@
 ************************************************************************************/
 
 
-***************************************************;
-* SAS Programming in SAS Viya                     *;
-***************************************************;
-* - You can still use traditional SAS code in SAS *;
-*   Viya with the SAS compute server.             *;
-* - Knowing CASL will add more contorl when you   *;
-*   want to accelerate data processing using the  *;
-*   CAS server. CASL also gives you different     *;
-*   variable data types like lists and            *;
-*    dictionaries.                                *; 
-***************************************************;
-
-* Traditional SAS programming example *;
+************************************************************************************************;
+* Traditional SAS Programming in SAS Viya                                                      *;
+************************************************************************************************;
+* - You can still use traditional SAS code in SAS Viya with the SAS compute server.            *;
+* - Knowing CASL will add more contorl when you want to accelerate data processing using the   *;
+*   CAS server. CASL also gives you different variable data types like lists and dictionaries. *;
+************************************************************************************************;
 
 * Macro language *;
 
-* Current folder path this program resides in *;
+* Current folder path this program resides in (program must be saved in a folder) *;
 %let currentPath = %sysfunc(tranwrd(&_sasprogramfile, %scan(&_sasprogramfile,-1,'/'),));
-* SAS data set *;
+
+* SAS data set to use*;
 %let dataSetName = sashelp.cars;
 
 * DATA step *;
@@ -49,7 +44,7 @@ data work.cars_new;
 	keep Make Model Origin MPG_City MPG_Highway MPG_Avg;
 run;
 
-* SAS ODS *;
+* SAS ODS EXCEL *;
 ods excel file ="&currentPath/basicExcelReport.xlsx";
 
 * Procedures *;
@@ -129,23 +124,20 @@ quit;
 proc cas;
 * Create a integer variable *;
 	x = 100;
+	print '*******************';
 	describe x;
 	print x;
+	print '*******************';
 
 * Create a double variable *;
-	y = 100.5;
+	y = 200.5;
+	print '*******************';
 	describe y;
 	print y;
-quit;
-
+	print '*******************';
 
 * Create an expression *;
-proc cas;
-	x = 100;
-	y = 200.5;
-
 	totalValue = x + y;
-
 	print '*******************';
 	print totalValue;
 	describe totalValue;
@@ -204,16 +196,6 @@ proc cas;
 
 	print '*******************';
 	print testList[1:3];
-	print '*******************';
-quit;
-
-
-* Select specific elements *;
-proc cas;
-	testList = {'element1', 'element2', 'element3', 'element4'};
-
-	print '*******************';
-	print testList[{2,4}];
 	print '*******************';
 quit;
 
@@ -334,7 +316,8 @@ quit;
 * Result tables *;
 *****************;
 /**************************************************************************************
-- These are simply in-memory tables. Results tables reside on the SAS compute server. 
+- These are simply in-memory tables, there file copy on disk
+- Results tables reside on the SAS compute server
 - These tables are not processed in the CAS server *;
 - Similar to DataFrames if you have used the Python pandas package
 **************************************************************************************/
@@ -395,3 +378,5 @@ proc sgplot data=work.myresulttable;
 	vbar Name / response=Age;
 run;
 title;
+
+* Go to program: 02 - Executing CAS Actions.sas *;
