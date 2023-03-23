@@ -22,6 +22,7 @@
 
 
 * If necessary, connect to the CAS server through the SAS client (Compute server) *;
+* A warning will occur of a connection already has the same name *;
 cas conn;
 
 **************************************************;
@@ -73,7 +74,7 @@ run;
 title;
 
 
-* View available data sources files  and in-memory tables in a caslib *;
+* View available data sources files and in-memory tables in a caslib *;
 proc cas;
 	viewCaslibs = {'samples', 'casuser'};
 
@@ -94,11 +95,7 @@ proc cas;
 			caslib = 'casuser',   /* Output in-memory space */
 			replace = TRUE        /* Replace if it already exists */
 		};
-quit;
 
-
-* View the new distributed CAS table *;
-proc cas;
 	* View available in-memory tables in the Casuser caslib to confirm retail is available *;
 	table.tableInfo / caslib = 'casuser';
 
@@ -133,7 +130,7 @@ quit;
 ******************************************************************;
 * GOAL: Plot the frequency values of loyalty_card and Department *;
 ******************************************************************;
-* 1. Use the CAS server to process data in the CAS server        *;
+* 1. Use the distributed CAS server to process data              *;
 * 2. Store the summarized results as a SAS table                 *;
 * 3. Visualize and report using traditional SAS programming      *;
 ******************************************************************;
@@ -162,7 +159,8 @@ proc cas;
 		table = retailTbl, 
 		inputs = {'loyalty_card', 'Department'};
 
-	* Store the result table from the dictoinary using the function *;
+	* Store the result table from the dictionary using the function *;
+	* This function to access the first result table in a variable  *;
 	rtbl = findTable(freqResults);
 
 	* Alternate method *;
@@ -181,6 +179,8 @@ quit;
 * on the compute server using traditional SAS and   *;
 * export the results to Excel.                      *;
 *****************************************************;
+proc print data=work.retailFreq;
+run;
 
 ods excel file="&currentPath/ExcelReport.xlsx";
 
@@ -231,17 +231,17 @@ proc cas;
 /* 			order by TotalCount; */
 /* '; */
 
-	fedSQL.execDirect /
-		query = myQuery;
+	fedSQL.execDirect / query = myQuery;
 quit;
 
-* Or use the fedsql procedure and specify your CAS connection *;
+* Traditional SAS: Use the fedsql procedure and specify your CAS connection *;
 proc fedsql sessref = conn;
 	select distinct Department, count (*) as TotalCount
 		from casuser.retail
 		group by Department
 		order by TotalCount;
 quit;
+cas conn listhistory 5;
 
 
 ******************************************************************;
@@ -262,11 +262,33 @@ proc cas;
 	endsource;
 
 	* Execute DATA step code *;
-	dataStep.runCode /
-		code = myDataStepCode;
+	dataStep.runCode / code = myDataStepCode;
 
 	* View the new CAS tables *;
 	table.tableInfo / caslib = 'casuser';
+quit;
+
+
+* REQUIRES CAS ENABLED FUNCTIONS. ERROR WILL OCCUR IF ONE IS NOT USED *;
+proc cas;
+	* Store your DATA step  as a string in the variable myDataStepCode *;
+	source myDataStepCode;
+		data casuser.no_loyalty_card
+			 casuser.loyalty_card
+			 casuser.other;
+
+			/*FIRST is not CAS enabled */
+			first = first('Peter'); 
+
+			set casuser.retail;
+			if loyalty_card = 0 then output casuser.no_loyalty_card;
+	    	else if loyalty_card = 1 then output casuser.loyalty_card;
+			else output casuser.other;
+		run;
+	endsource;
+
+	* Execute DATA step code *;
+	dataStep.runCode / code = myDataStepCode;
 quit;
 	
 
@@ -275,4 +297,5 @@ quit;
 * https://go.documentation.sas.com/doc/en/pgmsascdc/default/allprodsactions/actionSetsByName.htm
 ************************************************************************************/
 
+* Best practice is to terminate your connection when you are done to clear the resources *;
 cas conn terminate;

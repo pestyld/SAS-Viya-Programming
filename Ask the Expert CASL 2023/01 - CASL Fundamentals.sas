@@ -29,8 +29,6 @@
 *   CAS server. CASL also gives you different variable data types like lists and dictionaries. *;
 ************************************************************************************************;
 
-* Macro language *;
-
 * Current folder path this program resides in (program must be saved in a folder) *;
 %let currentPath = %sysfunc(tranwrd(&_sasprogramfile, %scan(&_sasprogramfile,-1,'/'),));
 
@@ -73,7 +71,7 @@ ods excel close;
 * Make a connection to the CAS server *;
 cas conn;
 
-* View information about the CAS server *;
+* Send commands to the CAS server. About will return information about the CAS server *;
 proc cas;
 	about;
 quit;
@@ -113,6 +111,11 @@ proc cas;
 	print 'My full name is (||) : ' lastName || ', ' || firstName;
 	print 'My full name is (cat function): ' cat(lastName,', ',firstName);
 quit;
+
+* Traditional SAS *;
+%let name = Peter Styliadis;
+%let firstName = %scan(&name,1);
+%put &=firstName;
 
 
 
@@ -160,6 +163,11 @@ proc cas;
 	print '*******************';
 quit;
 
+* Traditional SAS *;
+%let x = 100;
+%let y = 200.5;
+%let totalValue = %sysfunc(sum(&x,&y));
+%put &=totalValue;
 
 
 ****************;
@@ -183,16 +191,6 @@ proc cas;
 
 	print '*******************';
 	print testList[1];
-	print '*******************';
-quit;
-
-
-* Select range (incluseive) *;
-proc cas;
-	testList = {'element1', 'element2', 'element3', 'element4'};
-
-	print '*******************';
-	print testList[1:3];
 	print '*******************';
 quit;
 
