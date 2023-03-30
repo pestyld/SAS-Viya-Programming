@@ -86,7 +86,7 @@ quit;
 
 
 * Load a data source file into memory as a distributed CAS table *;
-* If you have used the pandas library before, this is like loading a file into memory as a DataFrame *;
+* If you have used the pandas library before, this is like loading a file into memory as a DataFrame using a read_ method *;
 proc cas;
 	table.loadTable /
 		path = 'RAND_RETAILDEMO.sashdat', caslib = 'samples',

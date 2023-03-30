@@ -112,11 +112,6 @@ proc cas;
 	print 'My full name is (cat function): ' cat(lastName,', ',firstName);
 quit;
 
-* Traditional SAS *;
-%let name = Peter Styliadis;
-%let firstName = %scan(&name,1);
-%put &=firstName;
-
 
 
 *********************;
@@ -163,11 +158,7 @@ proc cas;
 	print '*******************';
 quit;
 
-* Traditional SAS *;
-%let x = 100;
-%let y = 200.5;
-%let totalValue = %sysfunc(sum(&x,&y));
-%put &=totalValue;
+
 
 
 ****************;
@@ -181,16 +172,6 @@ proc cas;
 	print '*******************';
 	describe languagesForCAS;
 	print languagesForCAS;
-	print '*******************';
-quit;
-
-
-* Access elements in a list. CASL lists begin at position 1 *;
-proc cas;
-	testList = {'element1', 'element2', 'element3', 'element4'};
-
-	print '*******************';
-	print testList[1];
 	print '*******************';
 quit;
 
@@ -219,7 +200,7 @@ proc cas;
 quit;
 
 
-* Access elements by position in a list *;
+* Access elements in a list. CASL lists begin at position 1 *;
 proc cas;
 	myInfo = {'Peter', 37, 2, {'Gaea','Millie','Dakota'}};
 	name = myInfo[1];
@@ -290,21 +271,6 @@ proc cas;
 	print '*******************';
 quit;
 
-* Do I need this here? *;
-* Loop over a dictionary *;
-proc cas;
-	myInfo = {
-			  name = 'Peter', 
-              age = 37, 
-			  kids = 2, 
-			  dogs = {'Gaea','Millie','Dakota'}
-	};
-
-	do key, value over myInfo;
-		print 'The key is: ' key ', and the value is ' value;
-	end;
-quit;
-
 
 
 *****************;
@@ -313,7 +279,7 @@ quit;
 /**************************************************************************************
 - These are simply in-memory tables, there is no file on disk like traditional SAS tables
 - Results tables reside on the SAS compute server's memory
-- These tables are not processed in the CAS server *;
+- These tables are not processed in the CAS server
 - Similar to DataFrames if you have used the Python pandas package
 **************************************************************************************/
 
