@@ -15,9 +15,6 @@
 ************************************************************************************
 * SAS® Cloud Analytic Services: Fundamentals
 * https://go.documentation.sas.com/doc/en/pgmsascdc/default/casfun/titlepage.htm
-************************************************************************************
-* CAS Action Sets by Name
-* https://go.documentation.sas.com/doc/en/pgmsascdc/default/allprodsactions/actionSetsByName.htm
 ************************************************************************************/
 
 
@@ -246,7 +243,7 @@ proc cas;
 	totalKids = myInfo['kids'];
 
 	print '*******************';
-	print name ' has ' totalKids ' kids.';
+	print name ' has ' totalKids 'kids.';
 	print '*******************';
 quit;
 

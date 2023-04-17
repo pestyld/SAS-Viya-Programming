@@ -89,7 +89,7 @@ quit;
 * If you have used the pandas library before, this is like loading a file into memory as a DataFrame using a read_ method *;
 proc cas;
 	table.loadTable /
-		path = 'RAND_RETAILDEMO.sashdat', caslib = 'samples',
+		path = 'RAND_RETAILDEMO.sashdat', caslib = 'samples',    /* Input file - Load this file into memory */
 		casOut = {
 			name = 'retail',      /* Name of the distributed CAS table */
 			caslib = 'casuser',   /* Output in-memory space */
@@ -103,40 +103,43 @@ proc cas;
 	table.tableDetails / name = 'retail', caslib = 'casuser';
 quit;
 
-
+**********************************;
 * Explore an in-memory CAS table *;
-* CAS actions will process the data in the distributed CAS server and return results to the client (SAS compute) *;
+**********************************;
+* CAS actions will process the data in the distributed CAS server and return smaller, summarized results to the client (SAS compute) *;
+
 proc cas;
-	* Reference the CAS table in the dictionary *;
+	* Reference the CAS table in a dictionary *;
 	retailTbl = {name = 'retail', caslib = 'casuser'};
 
-	* Preview 5 rows of the retail CAS table *;
+	* Preview 5 rows of the retail CAS table (similar to PROC PRINT)*;
 	table.fetch / 
 		table = retailTbl, 
 		to = 5;
 
-	* View column attributes of the retail CAS table *;
+	* View column attributes of the retail CAS table (similar to PROC CONTENTS) *;
 	table.columnInfo / table = retailTbl;
 
-	* View distinct values of the CAS table *;
+	* View distinct and missing values of the CAS table *;
 	simple.distinct / table = retailTbl;
 
-	* View summary statistics of numeric columns *;
+	* View summary statistics of numeric columns (similar to PROC MEANS) *;
 	simple.summary / table = retailTbl;
 quit;
 
 
 
-******************************************************************;
-* GOAL: Plot the frequency values of loyalty_card and Department *;
-******************************************************************;
-* 1. Use the distributed CAS server to process data              *;
-* 2. Store the summarized results as a SAS table                 *;
-* 3. Visualize and report using traditional SAS programming      *;
-******************************************************************;
+************************************************************************;
+* SCENARIO: Plot the frequency values of loyalty_card and Department   *;
+************************************************************************;
+* 1. Use the distributed CAS server to summarize data                  *;
+* 2. Store the summarized results as a traditional SAS table(sas7bdat) *;
+* 3. Visualize and report using traditional SAS programming (SGPLOT)   *;
+************************************************************************;
 
-* Use the freq action to summarize the data in the distributed CAS server *;
+* Use the freq action to summarize the data in the distributed CAS server (similar to PROC FREQ) *;
 proc cas;
+	* CAS table reference *;
 	retailTbl = {name = 'retail', caslib = 'casuser'};
 
 	* Get frequency values on the distributed CAS server and store the results *;
@@ -150,8 +153,9 @@ proc cas;
 quit;
 
 
-* Save the results as a SAS data set *;
+* Save the results of the freq action as a SAS table (sas7bdat) *;
 proc cas;
+	* CAS table reference *;
 	retailTbl = {name = 'retail', caslib = 'casuser'};
 
 	* Get frequency values on the distributed CAS server and store the results *;
@@ -159,34 +163,35 @@ proc cas;
 		table = retailTbl, 
 		inputs = {'loyalty_card', 'Department'};
 
-	* Store the result table from the dictionary using the function *;
-	* This function to access the first result table in a variable  *;
-	rtbl = findTable(freqResults);
+	* Store the result table from the dictionary using the findTable function *;
+	* This function accesses the first result table in a the dictionary and stores it in a variable  *;
+	resultstbl = findTable(freqResults);
 
 	* Alternate method *;
-	*rtbl = freqResults['Frequency'];
+	*resultstbl = freqResults['Frequency'];
 
-	* Save the smaller summarized results as a SAS table *;
-	saveresult rtbl dataout=work.retailFreq;
+	* Save the smaller summarized results as a SAS table (sas7bdat) *;
+	saveresult resultstbl dataout=work.retailFreq;
 quit;
-* Check the WORK library on the compute server. Notice a new SAS table was created *;
+* Check the WORK library on the Compute server. Notice a new SAS table was created *;
 
 
 *****************************************************;
 * Traditional SAS Programming on the CAS results    *;
 *****************************************************;
 * Visualize the summarized data from the CAS server *;
-* on the compute server using traditional SAS and   *;
+* on the Compute server using traditional SAS and   *;
 * export the results to Excel.                      *;
 *****************************************************;
-proc print data=work.retailFreq;
-run;
 
-ods excel file="&currentPath/ExcelReport.xlsx";
+ods excel file="&currentPath/Freq_ExcelReport.xlsx";
 
 proc print data = work.retailFreq;
 run;
 
+*************************;
+* PLOT 1 - loyalty_card *;
+*************************;
 %let selectedColumn = %upcase(loyalty_card);
 
 title "Frequency values of: &selectedColumn";
@@ -197,6 +202,10 @@ proc sgplot data=work.retailFreq;
 	where upcase(Column) = "&selectedColumn";
 quit;
 
+
+*************************;
+* PLOT 2 - Department   *;
+*************************;
 %let selectedColumn = %upcase(Department);
 
 title "Frequency values of: &selectedColumn";
@@ -212,7 +221,7 @@ ods excel close;
 
 
 ******************************************************************;
-* GOAL: Execute SQL in the distributed CAS server                *;
+* SCENARIO: Execute SQL in the distributed CAS server            *;
 ******************************************************************;
 proc cas;
 	* Store your query as a string in the variable myQuery *;
@@ -234,22 +243,26 @@ proc cas;
 	fedSQL.execDirect / query = myQuery;
 quit;
 
-* Traditional SAS: Use the fedsql procedure and specify your CAS connection *;
-proc fedsql sessref = conn;
+
+* Traditional SAS PROC to execute in CAS: Use the fedsql procedure and specify your CAS connection *;
+
+proc fedsql sessref = conn; * <---Specify the CAS connection name *;
 	select distinct Department, count (*) as TotalCount
 		from casuser.retail
 		group by Department
 		order by TotalCount;
 quit;
-cas conn listhistory 5;
+
+* View what was sent to the CAS server to execute from PROC FEDSQL *;
+cas conn listhistory 3;
 
 
 ******************************************************************;
-* GOAL: Execute DATA step in the distributed CAS server          *;
+* SCENARIO: Execute DATA step in the distributed CAS server      *;
 ******************************************************************;
 
 proc cas;
-	* Store your DATA step  as a string in the variable myDataStepCode *;
+	* Store your DATA step code as a string in the variable myDataStepCode *;
 	source myDataStepCode;
 		data casuser.no_loyalty_card
 			 casuser.loyalty_card
@@ -269,9 +282,11 @@ proc cas;
 quit;
 
 
-* REQUIRES CAS ENABLED FUNCTIONS. ERROR WILL OCCUR IF ONE IS NOT USED *;
+* NOTE: DATA STEP IN THE CAS SERVER REQUIRES CAS ENABLED FUNCTIONS AND STATEMENTS. *;
+* AN ERROR WILL OCCUR IF ONE IS NOT USED *;
+
 proc cas;
-	* Store your DATA step  as a string in the variable myDataStepCode *;
+	* Store your DATA step code as a string in the variable myDataStepCode *;
 	source myDataStepCode;
 		data casuser.no_loyalty_card
 			 casuser.loyalty_card
