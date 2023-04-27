@@ -65,7 +65,7 @@ ods excel close;
 * Connect the SAS Client (SAS Compute Server) to the CAS Server *;
 *****************************************************************;
 
-* Make a connection to the CAS server *;
+* Make a client-side (Compute server) connection to the CAS server *;
 cas conn;
 
 * Send commands to the CAS server. About will return information about the CAS server *;
