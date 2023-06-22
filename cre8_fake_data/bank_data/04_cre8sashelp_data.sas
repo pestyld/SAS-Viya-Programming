@@ -14,7 +14,7 @@ run;
 ********************************************;
 * Add SASHELP Tables to the CASUSER Caslib *;
 ********************************************;
-* CARS - Promoted *;
+* CARS *;
 proc casutil;
 	load data=sashelp.cars
 	     casout='cars'
@@ -35,13 +35,13 @@ run;
 proc cas;
 	table.save / 
 		table={name='cars', caslib="&outputCaslib"}
-		name='cars.txt', replace=TRUE;
+		name='cars.txt', caslib="&outputCaslib", replace=TRUE;
 	table.save / 
 		table={name='cars', caslib="&outputCaslib"}
-		name='cars.sas7bdat', replace=TRUE;
+		name='cars.sas7bdat', caslib="&outputCaslib", replace=TRUE;
 	table.save / 
 		table={name='heart', caslib="&outputCaslib"}
-		name='heart.sashdat', replace=TRUE;
+		name='heart.sashdat', caslib="&outputCaslib", replace=TRUE;
 
 	table.dropTable /
 		caslib="&outputCaslib", name='heart', quiet=TRUE;
