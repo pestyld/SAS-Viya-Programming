@@ -81,7 +81,10 @@ df = tbl.loyalty_card.value_counts()
 print(df)
 
 
-## Create data visualization
+## CREATE AND SAVE VISUALIZATION
+
+## Set path to the output folder
+outpath = SAS.symget("_USERHOME") + '/output'
 todaysDate = datetime.today().strftime('%Y-%m-%d')
 df.plot(kind='bar', title=f'Loyalty Card Members as of {todaysDate}')
 SAS.pyplot(plt, filename=f'loyalty_members_{todaysDate}',filepath=outpath, filetype='png')
