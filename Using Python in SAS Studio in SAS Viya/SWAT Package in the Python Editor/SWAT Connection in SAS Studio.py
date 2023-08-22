@@ -129,12 +129,13 @@ tbl.alterTable(columns = newColNames, drop = dropColumns)
 print(tbl.head())
 
 
+
 ## CREATE NEW COLUMNS
 tbl.eval("TOTAL_PROFIT = SALES - COST ")
 tbl.eval("LOYALTY_CARD_VALUE = IFC(LOYALTY_CARD = 1, 'YES', 'NO')" )
 
-
 print(tbl.head())
+
 
 
 ## CREATE A NEW IN-MEMORY CAS TABLE
@@ -147,16 +148,21 @@ tbl.copyTable(casout={'name':'final_sales',
 cr = conn.tableInfo(caslib = 'casuser')
 print(cr)
 
+## Reference new CAS Table
+finalTbl = conn.CASTable('final_sales', caslib = 'casuser')
+
+
+
 ## SAVE THE CAS TABLE TO A DATA SOURCE
-tbl.save(name=f'final_sales_{todaysDate}.parquet', caslib='casuser', replace = True)
+finalTbl.save(name=f'final_sales_{todaysDate}.parquet', caslib='casuser', replace = True)
 
 
 ##
 ## Terminate the CAS connection
 ##
 
-## Delete source file that was created (optional)
-#conn.deleteSource(source='final_sales_2023-08-22.parquet', caslib = 'casuser')
+## Delete source file and promoted CAS table that was created (optional)
+#conn.deleteSource(source=f'final_sales_{todaysDate}.parquet', caslib = 'casuser')
 
 conn.terminate()
 
