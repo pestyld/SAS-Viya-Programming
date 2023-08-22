@@ -11,5 +11,7 @@ print(conn.about())
 
 ## quick data prep and replace global table for other Viya app.
 
+## samples caslib quick data prep
+
 
 conn.terminate()

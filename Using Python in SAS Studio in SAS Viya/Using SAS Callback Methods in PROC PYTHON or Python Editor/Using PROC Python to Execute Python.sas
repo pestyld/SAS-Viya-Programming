@@ -57,26 +57,26 @@ print(df.head(), df.isna().sum())
 ##
 
 ## Traditional SAS library
-SAS.df2sd(df, 'work.myDataFrame')
+SAS.df2sd(df, 'work.myDataFrame_PROCPYTHON')
 
 
 endsubmit;
 quit;
 
 
-/****************************************/
-/* Use SAS procedures on the final data */
-/****************************************/
-libname xxx;
-
-proc print data=work.myDataFrame(obs=10);
+/****************************************************/
+/* Use SAS procedures on the final data from Python */
+/****************************************************/
+proc print data=work.myDataFrame_PROCPYTHON(obs=10);
 run;
 
-proc means data=work.myDataFrame n mean max min;
+proc means data=work.myDataFrame_PROCPYTHON n mean max min;
 	class Make;
 	var MSRP MPG_AVG;
 run;
 
-proc sgplot data=work.myDataFrame;
+title height=16pt justify=left color=red 'MPG Average by Type';
+proc sgplot data=work.myDataFrame_PROCPYTHON;
 	scatter x=Type y=MPG_Avg;
 quit;
+title;

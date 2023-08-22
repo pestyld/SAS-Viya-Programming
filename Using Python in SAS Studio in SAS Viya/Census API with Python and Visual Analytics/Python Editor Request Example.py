@@ -69,6 +69,8 @@ print(df)
 ##
 
 # Send the data to the CAS server and promote the table to use SAS Visual Analytics
+
+## drop
 SAS.df2sd(df, 'casuser.pop2021_python_editor(PROMOTE=YES)')
 
 # Send the data to the compute server
