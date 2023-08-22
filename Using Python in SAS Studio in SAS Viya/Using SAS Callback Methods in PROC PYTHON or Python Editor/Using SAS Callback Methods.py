@@ -17,6 +17,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 ## Options
 pd.set_option('display.max_columns', 20)
@@ -188,6 +189,10 @@ df.plot.scatter(x = 'TYPE', y = 'MPG_AVG', figsize = (8,6), title = 'MPG Average
 ## Use the SAS.pyplot method and call plt
 SAS.pyplot(plt)
 
+## Clear the current figure. 
+plt.clf()                                    
+
+
 
 ##
 ## Using matplotlib
@@ -198,15 +203,27 @@ ax.set_title('MPG Average by Type')
 SAS.pyplot(fig)                              ## Show image in results using the figure
 
 
+
 ##
 ## Save and render the image file
 ##
-outpath = r'/greenmonthly-export/ssemonthly/homes/Peter.Styliadis@sas.com'
+
+## View all stored macro variables
+SAS.submit('%put _all_;')
+
+## Get the path to your home folder on the server using the SAS macro variable _USERHOME
+home_path = SAS.symget("_USERHOME")
+print(home_path)
+
+## Set path to the output folder
+outpath = home_path + '/output'
 
 ## By default image is saved as svg if not specified in method
-SAS.pyplot(fig, filename='newimage',filepath=outpath, filetype='png')
+SAS.pyplot(fig, filename='my_scatter_plot',filepath=outpath, filetype='png')
+
+
 
 ##
 ## Render an image file that is already created
 ##
-SAS.renderImage(outpath + '/newimage.png')
+SAS.renderImage(outpath + '/my_scatter_plot.png')
