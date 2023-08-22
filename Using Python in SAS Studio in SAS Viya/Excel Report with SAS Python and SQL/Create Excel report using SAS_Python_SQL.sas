@@ -1,24 +1,47 @@
 *********************************************************************;
 * Create an Excel Report Using SAS, Python and SQL                  *;
 *********************************************************************;
+* Blog Post: https://blogs.sas.com/content/sgf/2022/12/22/creating-a-microsoft-excel-report-using-sas-python-and-sql/ *;
+
 
 *********************************;
 * Set folder path and file name *;
 *********************************;
-* Current folder. SAS program must be saved to the location *; 
+* Current folder of SAS program. SAS program must be saved to the location *; 
 %let fileName =  %scan(&_sasprogramfile,-1,'/');
 %let path = %sysfunc(tranwrd(&_sasprogramfile, &fileName,));
 %let xlFileName = myExcelReport.xlsx;
 
 
-****************;
-* Prepare data *;
-****************;
+************************************;
+* Prepare data using SAS or PYTHON *;
+************************************;
+
+* SAS *;
 data work.cars;
 	set sashelp.cars;
 	MPG_Avg=mean(MPG_City, MPG_Highway);
 	drop Wheelbase Weight Length;
 run;
+
+
+* PYTHON *;
+proc python;
+submit;
+
+import pandas as pd
+
+df_raw = SAS.sd2df('sashelp.cars')
+
+df = (df_raw
+      .drop(columns = ['Wheelbase', 'Weight','Length'], axis = 1)
+      .assign(MPG_AVG = lambda _df : _df.loc[:,['MPG_City','MPG_Highway']].mean(axis = 'columns'))
+)
+
+
+SAS.df2sd(df,'work.cars_python')
+endsubmit;
+quit;
 
 
 ***************************************; 
@@ -91,7 +114,7 @@ ax.set_xticks(rename_x_axis['position'])
 ax.set_xticklabels(rename_x_axis['labels']);
 
 ## Save and render image file
-SAS.pyplot(plt, filename='violinPlot',filepath=outpath)
+SAS.pyplot(plt, filename='violinPlot',filepath=outpath, filetype='png')
 
 endsubmit;
 quit;
@@ -109,7 +132,7 @@ quit;
 title;
 
 
-* Add text *;
+* Add text to Excel report *;
 proc odstext;
 	heading 'NOTES';
 	p 'Using the SASHELP.CARS data. The following car Origins were analyzed:';
