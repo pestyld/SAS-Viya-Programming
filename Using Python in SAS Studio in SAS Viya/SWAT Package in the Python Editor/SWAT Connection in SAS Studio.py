@@ -140,7 +140,8 @@ print(tbl.head())
 ## CREATE A NEW IN-MEMORY CAS TABLE
 tbl.copyTable(casout={'name':'final_sales', 
 					  'caslib':'casuser', 
-                      'label':'final sales production data'})
+                      'label':'final sales production data',
+                      'replace':True})
 
 ## View in-memory tables
 cr = conn.tableInfo(caslib = 'casuser')
