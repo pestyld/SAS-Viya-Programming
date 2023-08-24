@@ -53,7 +53,7 @@ cr = conn.fileInfo(caslib = 'samples')
 print(cr)
 
 
-## Load data into memory on the distributed CAS server
+## Load data into memory on the distributed CAS server for MPP
 loadFile = 'RAND_RETAILDEMO.sashdat'
 fileLoc = 'samples'
 outCasTable = {'name':'retail_sales', 'caslib':'casuser'}
@@ -85,14 +85,20 @@ print(df)
 
 ## Set path to the output folder
 outpath = SAS.symget("_USERHOME") + '/output'
+
+## Get today's date
 todaysDate = datetime.today().strftime('%Y-%m-%d')
+
+## Plot and save the image
 df.plot(kind='bar', title=f'Loyalty Card Members as of {todaysDate}')
 SAS.pyplot(plt, filename=f'loyalty_members_{todaysDate}',filepath=outpath, filetype='png')
 
-
+## Simple descriptive statistics
 cr = tbl.summary()
 print(cr)
 
+
+## Simple frequency values
 col_to_freq = ['Department','brand_name', 'Storechain']
 cr = tbl.freq(inputs = col_to_freq)
 print(cr)
@@ -137,25 +143,29 @@ tbl.eval("LOYALTY_CARD_VALUE = IFC(LOYALTY_CARD = 1, 'YES', 'NO')" )
 print(tbl.head())
 
 
-
+##
 ## CREATE A NEW IN-MEMORY CAS TABLE
+##
 tbl.copyTable(casout={'name':'final_sales', 
 					  'caslib':'casuser', 
                       'label':'final sales production data',
                       'replace':True})
 
+
 ## View in-memory tables
 cr = conn.tableInfo(caslib = 'casuser')
 print(cr)
+
 
 ## Reference new CAS Table
 finalTbl = conn.CASTable('final_sales', caslib = 'casuser')
 
 
-
 ## SAVE THE CAS TABLE TO A DATA SOURCE
 finalTbl.save(name=f'final_sales_{todaysDate}.parquet', caslib='casuser', replace = True)
 
+cr = conn.fileInfo(caslib = 'casuser')
+print(cr)
 
 ##
 ## Terminate the CAS connection

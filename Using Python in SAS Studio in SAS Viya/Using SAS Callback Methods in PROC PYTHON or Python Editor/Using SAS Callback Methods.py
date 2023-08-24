@@ -71,17 +71,19 @@ SAS.df2sd(df, 'work.myDataFrame')
 
 
 
-#######################################################################
-## Accessing Data on the CAS Server                                 ##     
-#######################################################################
+#############################################
+## Accessing Data on the CAS Server        ##     
+#############################################
+## Data comes from a distributed CAS table -> Compute server -> DataFrame
 
-## Specify the SAS library and table name. DATA set options are available
-df_from_cas = SAS.sd2df('casuser.cars(drop=Weight  Wheelbase  Length)')
+## Specify the libref to a caslib library
+df_from_cas = SAS.sd2df('casuser.cars')
 
 print(df_from_cas.head())
 
 
 ## Transfer the DataFrame to a a caslib on the CAS server 
+## Data comes from a DataFrame -> Compute server -> distributed CAS table
 SAS.df2sd(df_from_cas, 'casuser.myCASTableFromDataFrame')
 
 
@@ -91,7 +93,7 @@ SAS.df2sd(df_from_cas, 'casuser.myCASTableFromDataFrame')
 ###########################################
 
 ##
-## Compute Server Processing
+## COMPUTE SERVER PROCESSING
 ##
 
 ## Submit simple PRINT procedure
@@ -114,7 +116,6 @@ cars_summary_df = SAS.sd2df('work.cars_summary')
 print(cars_summary_df.head(10))
 
 
-
 ## Create SAS tables with a procedure and then create DataFrames
 SAS.submit('''
 proc freq data=sashelp.cars order=freq ;
@@ -128,9 +129,12 @@ print(freq_model_df)
 
 
 ##
-## CAS Server Distributed Processing
+## CAS SERVER DISTRIBUTED PROCESSING
 ##
+
+## Use Python f strings
 myCasTable = 'casuser.cars'
+
 SAS.submit(f'''
 proc mdsummary data={myCasTable};
 	var MSRP MPG_City;
@@ -153,7 +157,7 @@ print(cars_cas_df.head())
 ###################################################################
 
 ##
-## Create traditional SAS library reference if necessary 
+## CREATE A TRADITIONAL SAS LIBRARY REFERENCE
 ##
 path = r'/greenmonthly-export/ssemonthly/homes/Peter.Styliadis@sas.com/Data'
 sas_statement = f"libname mydata '{path}';"
@@ -162,10 +166,8 @@ print(sas_statement)
 ## Submit the SAS statement
 SAS.submit(sas_statement)
 
-
-
 ##
-## Create library reference to a calsib if for distributed processing (MPP)
+## CREATE LIBRARY REFERENCE TO A CASLIB FOR DISTRIBUTED PROCESSING (MPP)
 ##
 SAS.submit('libname public cas caslib="public";')
 
@@ -180,7 +182,7 @@ print(df.head())
 
 
 ##
-## Using the pandas plot method
+## USING THE PANDAS PLOT METHOD
 ##
 
 ## Plot won't show by default
@@ -193,19 +195,18 @@ SAS.pyplot(plt)
 plt.clf()                                    
 
 
+##
+## USING MATPLOTLIB
+##
 
-##
-## Using matplotlib
-##
 fig, ax = plt.subplots(figsize = (8,6))
 ax.scatter(x = df['TYPE'], y = df['MPG_AVG'])
 ax.set_title('MPG Average by Type')
 SAS.pyplot(fig)                              ## Show image in results using the figure
 
 
-
 ##
-## Save and render the image file
+## SAVE AND RENDER THE IMAGE
 ##
 
 ## View all stored macro variables
@@ -222,8 +223,7 @@ outpath = home_path + '/output'
 SAS.pyplot(fig, filename='my_scatter_plot',filepath=outpath, filetype='png')
 
 
-
 ##
-## Render an image file that is already created
+## RENDER AN IMAGE FILE
 ##
 SAS.renderImage(outpath + '/my_scatter_plot.png')

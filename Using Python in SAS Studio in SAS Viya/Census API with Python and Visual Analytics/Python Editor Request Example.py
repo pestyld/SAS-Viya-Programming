@@ -132,3 +132,5 @@ conn.upload_frame(df,
 						'caslib':'casuser',
 						'promote':True
 				  })
+
+conn.terminate()
