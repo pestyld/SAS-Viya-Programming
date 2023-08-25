@@ -80,7 +80,7 @@ print(df.head())
 tbl = 'casuser.cars'
 
 ## Specify the name of the CAS session
-cas_session_name = 'casauto'
+cas_session_name = 'conn'
 
 ## The SESSREF= option specifies the CAS session and runs the SQL query in the CAS cluster. 
 ## The caslib name must be specified here. You cannot use the libref to a caslib.
@@ -140,3 +140,6 @@ print(cr.keys())
 df = cr['Result Set']
 print(type(cr))
 print(df)
+
+## Terminate the CAS connection
+conn.terminate()

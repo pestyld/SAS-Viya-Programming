@@ -15,6 +15,7 @@
 ## Import packages
 ##
 import pandas as pd
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -157,14 +158,42 @@ print(cars_cas_df.head())
 ###################################################################
 
 ##
+## GET THE SERVER PATH
+##
+
+## Python lives in a container separate from SAS.
+## The getcwd method shows the path to the Python container, not the server path on the left.
+print(os.getcwd())
+
+
+## View all stored macro variables
+## The _USERHOME macro variable points to your home folder on the server
+SAS.submit('%put _all_;')
+
+
+## Get the path to your home folder on the server using the SAS macro variable _USERHOME
+home_path = SAS.symget("_USERHOME")
+print(home_path)
+
+## Set path to the output folder
+outpath = home_path + '/output'
+
+
+##
 ## CREATE A TRADITIONAL SAS LIBRARY REFERENCE
 ##
-path = r'/greenmonthly-export/ssemonthly/homes/Peter.Styliadis@sas.com/Data'
+
+## Path to the data folder as an example
+path = home_path + '/data'
+print(path)
+
+## Create a libref on the Compute server
 sas_statement = f"libname mydata '{path}';"
 print(sas_statement)
 
 ## Submit the SAS statement
 SAS.submit(sas_statement)
+
 
 ##
 ## CREATE LIBRARY REFERENCE TO A CASLIB FOR DISTRIBUTED PROCESSING (MPP)
@@ -208,16 +237,6 @@ SAS.pyplot(fig)                              ## Show image in results using the 
 ##
 ## SAVE AND RENDER THE IMAGE
 ##
-
-## View all stored macro variables
-SAS.submit('%put _all_;')
-
-## Get the path to your home folder on the server using the SAS macro variable _USERHOME
-home_path = SAS.symget("_USERHOME")
-print(home_path)
-
-## Set path to the output folder
-outpath = home_path + '/output'
 
 ## By default image is saved as svg if not specified in method
 SAS.pyplot(fig, filename='my_scatter_plot',filepath=outpath, filetype='png')
