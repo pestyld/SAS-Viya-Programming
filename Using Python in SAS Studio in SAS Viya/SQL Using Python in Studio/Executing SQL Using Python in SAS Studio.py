@@ -18,15 +18,15 @@
 
 
 ## Simple SQL query
-tbl = 'sashelp.cars'
+sas_data = 'sashelp.cars'
 
 sqlQuery = f'''
-	proc sql;
+proc sql;
 	select Make, count(*) as TotalCars
-		from {tbl}
+		from {sas_data}
 		group by Make
 		order by TotalCars desc;
-	quit;
+quit;
 '''
 SAS.submit(sqlQuery)
 
@@ -34,15 +34,18 @@ SAS.submit(sqlQuery)
 
 ## PROC SQL enhancements (calculated keyword) to create a table
 sqlQuery = f'''
-	proc sql;
+proc sql;
+
+/* Create table query */
 	create table high_avg_mpg as
 	select Make, Model, mean(MPG_City,MPG_Highway) as MPG_Avg
-		from {tbl}
+		from {sas_data}
 		where calculated MPG_Avg > 40;
 
+/* Preview query */
 	select *
 		from work.high_avg_mpg;
-	quit;
+quit;
 '''
 SAS.submit(sqlQuery)
 
@@ -50,6 +53,7 @@ SAS.submit(sqlQuery)
 ## Read the SAS table as a DataFrame
 df = SAS.sd2df('work.high_avg_mpg')
 
+print(type(df))
 print(df.head())
 
 
@@ -81,12 +85,12 @@ cas_session_name = 'casauto'
 ## The SESSREF= option specifies the CAS session and runs the SQL query in the CAS cluster. 
 ## The caslib name must be specified here. You cannot use the libref to a caslib.
 sqlQuery = f'''
-	proc fedsql sessref={cas_session_name};
+proc fedsql sessref={cas_session_name};
 	select Make, count(*) as TotalCars
 		from {tbl}
 		group by Make
 		order by TotalCars desc;
-	quit;
+quit;
 '''
 SAS.submit(sqlQuery)
 
@@ -95,7 +99,8 @@ SAS.submit(sqlQuery)
 ##
 ## USE THE SWAT PACKAGE TO EXECUTE FEDSQL
 ##
-## NOTE: This is doing the exact same thing as PROC FEDSQL. Simp
+## NOTE: This is doing the exact same thing as PROC FEDSQL. 
+##       The main difference is you are using Python and the execDirect method (action)
 
 import swat
 import os
@@ -112,7 +117,10 @@ print(conn.about()['About']['Viya Version'])
 ## Load the fedSQL action set (package)
 conn.loadActionSet('fedSQL')
 
-## SQL query as a string
+## SQL query as a string. 
+## Only one query can be executed at a time. 
+## Must specify the caslib name followed by the CAS table name.
+
 myQuery = '''
 select Make, count(*) as TotalCars
 	from casuser.cars
