@@ -38,7 +38,9 @@ proc sql;
 
 /* Create table query */
 	create table high_avg_mpg as
-	select Make, Model, mean(MPG_City,MPG_Highway) as MPG_Avg
+	select Make, 
+           Model, 
+           mean(MPG_City,MPG_Highway) as MPG_Avg
 		from {sas_data}
 		where calculated MPG_Avg > 40;
 
@@ -66,6 +68,7 @@ print(df.head())
 ## - Must use FedSQL (PROC FEDSQL or the fedSQL.execDirect action)
 ## - FedSQL works on caslibs
 ## - FedSQL runs on the CAS cluster for MPP
+## - FedSQL is a vendor neutral, ANSI 1999 SQL implementation. No PROC SQL enhancements.
 ## - Each query within PROC FEDSQL must end in a semi-colon
 ## - FedSQL supports implicit and explicit pass through into databases (functionality depends on the database)
 ## 		a. Implicit pass through will convert SAS SQL into native database FedSQL where possible for in-database processing
@@ -97,11 +100,13 @@ SAS.submit(sqlQuery)
 
 
 ##
-## USE THE SWAT PACKAGE TO EXECUTE FEDSQL
+## USE THE SWAT PACKAGE TO EXECUTE THE FEDSQL.EXECDIRECT ACTION
 ##
-## NOTE: This is doing the exact same thing as PROC FEDSQL. 
-##       The main difference is you are using Python and the execDirect method (action)
 
+## NOTE: This is doing the exact same thing as PROC FEDSQL. 
+##       The main difference is you are using Python and the execDirect method (action) directly.
+
+## Import packages
 import swat
 import os
 
@@ -138,7 +143,7 @@ print(cr.keys())
 
 ## Print the DataFrame in the dictionary
 df = cr['Result Set']
-print(type(cr))
+print(type(df))
 print(df)
 
 ## Terminate the CAS connection
