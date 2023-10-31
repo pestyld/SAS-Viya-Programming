@@ -1,7 +1,7 @@
 # SAS Viya Programming
 This repository contains a variety of SAS and CASL programs in SAS Viya. It also contains code snippets in how to use the Python editor in SAS Viya.
 
-## Description of Workshops (folders)
+## Description of Workshops (each folders)
 
 ### Ask the Expert CASL 2023
 [Get Started: Using CAS Programming Language for Distributed Computing in the SAS® Viya® Platform](https://www.sas.com/en_us/webinars/cas-distributed-computing.html)
