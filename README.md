@@ -4,21 +4,12 @@ This repository contains a variety of SAS and CASL programs in SAS Viya. It also
 ## Description of Workshops (each folders)
 
 ### Ask the Expert CASL 2023
-[Get Started: Using CAS Programming Language for Distributed Computing in the SAS® Viya® Platform](https://www.sas.com/en_us/webinars/cas-distributed-computing.html)
-
-Want to get the most from the SAS Viya platform's high-performance, in-memory, distributed analytics computing engine? Let us show you how.
-
 In this webinar, we’ll cover the fundamentals of the SAS Viya platform and CAS, then dive into CASL, the scripting language designed to support the entire analytics life cycle.
 
-This session is designed for intermediate-level programmers who work with the SAS Viya platform and want to start using the power of the CAS programming language (CASL) to access, explore, prepare, and analyze data in CAS.
-
-### Ask the Expert Special Edition - Viya Programming 2022
-[Getting to Know SAS® Viya®](https://www.sas.com/en_us/webinars/getting-to-know-sas-viya.html) Special Edition ask the expert webinar. This special edition Ask the Expert learning event will introduce you to SAS Viya.
+### Ask the Expert Getting to Know SAS® Viya
+This special edition Ask the Expert learning event will introduce you to SAS Viya.
 
 You’ll learn what Viya is, its key attributes, how users in different roles interact with Viya, and how it provides support for the complete analytics life cycle, turning massive amounts of raw data into actionable insights.
-
-The folder contains the code for my section on comparing the SAS compute server and the CAS server. How to convert your code to run in the distributed CAS environment.
-
 
 ### CAS Action Blog Series
 Folder contains all programs for my [CAS Action! - a series](https://blogs.sas.com/content/sgf/2021/08/06/cas-action-a-series-on-fundamentals/) on fundamentals blog series.
@@ -27,8 +18,8 @@ Folder contains all programs for my [CAS Action! - a series](https://blogs.sas.c
 ### CASL Tips and Tricks
 This repo includes a variety CASL code snippets to process data in the CAS server in SAS Viya. The CAS server is distributed server that uses multiple machines to perform massively parallel processing (MPP). 
 
-- For more information about the CAS server visit the [SAS® Cloud Analytic Services: Fundamentals documentation](https://go.documentation.sas.com/doc/en/pgmsascdc/v_032/casfun/titlepage.htm).
-- For more information about the CASL language visit the [SAS® Cloud Analytic Services: CASL Programmer’s Guide](https://go.documentation.sas.com/doc/en/pgmsascdc/v_032/caslpg/titlepage.htm)
+- For more information about the CAS server visit the [SAS® Cloud Analytic Services: Fundamentals documentation](https://go.documentation.sas.com/doc/en/pgmsascdc/default/casfun/titlepage.htm).
+- For more information about the CASL language visit the [SAS® Cloud Analytic Services: CASL Programmer’s Guide](https://go.documentation.sas.com/doc/en/pgmsascdc/default/caslpg/titlepage.htm)
 
 
 ### Using Python in SAS Studio in SAS Viya
