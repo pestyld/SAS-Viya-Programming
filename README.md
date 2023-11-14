@@ -29,10 +29,12 @@ Learn how to find current working directory of your SAS program.
 ### [Extract text from PDFs and create tables](https://github.com/pestyld/SAS-Viya-Programming/tree/master/Extract%20text%20from%20PDFs%20and%20create%20tables)
 Learn how to extract text from a series of PDFs files and create a structured table.
 
+### [SAS Explore 2023 - Analyzing Database Tables in SAS Viya Using SQL](https://github.com/pestyld/SAS-Viya-Programming/tree/master/SAS%20Explore%202023%20-%20Analyzing%20Database%20Tables%20in%20SAS%20Viya%20Using%20SQL)
+Learn how to work with database tables in SAS Viya. Parts of this presentation is applicable to SAS9 users.
+
 ### [Using Python in SAS Studio in SAS Viya](https://github.com/pestyld/SAS-Viya-Programming/tree/master/Using%20Python%20in%20SAS%20Studio%20in%20SAS%20Viya)
 This folder contains code snippets for examples on how to use the Python editor in SAS Studio in SAS Viya.
 - [Creating a Microsoft Excel report using SAS, Python and SQL!](https://blogs.sas.com/content/sgf/2022/12/22/creating-a-microsoft-excel-report-using-sas-python-and-sql/) SAS blog post
-
 
 ### [cre8_fake_data](https://github.com/pestyld/SAS-Viya-Programming/tree/master/cre8_fake_data)
 Series of SAS programs to create fake data of n size in the distributed CAS server.
