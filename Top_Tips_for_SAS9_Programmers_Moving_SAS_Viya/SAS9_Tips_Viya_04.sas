@@ -6,29 +6,47 @@
 /* 4 - Run DATA step in on the distributed CAS server     */
 /**********************************************************/
 
+
+/************************************************************/
 /* Connect the Compute Server to the distributed CAS Server */
+/************************************************************/
 cas conn;
 
-/* Explicity load a file into memory */
+
+/**********************************************/
+/* Explicity load a file into memory into CAS */
+/**********************************************/
 proc casutil;
 	load casdata='RAND_RETAILDEMO.sashdat' incaslib = 'samples'
 		 casout='RAND_RETAILDEMO' outcaslib = 'casuser';
 quit;
 
 
-/* Create a library reference to the CAS table */
+
+/************************************************/
+/* Create a library reference to a caslib       */
+/************************************************/
 libname casuser cas caslib = 'casuser';
 
 
+
+/*************************/
 /* Preview the CAS table */
+/*************************/
 proc print data=casuser.rand_retaildemo(obs=10);
 run;
 
 
-/* Run DATA step on the in-memory table in the distributed CAS server and create a new in-memory table */
+
+/**********************************************************************/
+/* Run DATA step on the in-memory table in the distributed CAS server */ 
+/* create a new in-memory table                                       */
+/**********************************************************************/
 options msglevel=i; /* <--- View additional log notes */
 data casuser.rand_retaildemo_final;
 	set casuser.rand_retaildemo end=eof; /* <-- View the number of processing threads */
+
+	/* Data prep */
 	Department = upcase(Department);
 	Profit = Sales - Cost;
 	Location = catx(',',City, Country);
@@ -39,4 +57,9 @@ data casuser.rand_retaildemo_final;
 run;
 options msglevel=n; /* Reset notes to the default */
 
+
+
+/**********************************/
+/* Disconnect from the CAS server */
+/**********************************/
 cas conn terminate;

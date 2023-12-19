@@ -16,7 +16,8 @@ proc import datafile="&path/home_equity.csv"
 run;
 
 
-/* New path in SAS Viya */
+
+/* New path to data in SAS Viya */
 %let path = /newpath/user/home_equity.csv; /* <----- modify path to your new data */
 
 proc import datafile="&path/home_equity.csv" 

@@ -6,16 +6,26 @@
 /* 6 - Execute SQL in the distributed CAS server          */
 /**********************************************************/
 
+/************************************************************/
 /* Connect the Compute Server to the distributed CAS Server */
+/************************************************************/
 cas conn;
 
-/* Explicity load a file into memory */
+
+
+/**********************************************/
+/* Explicity load a file into memory into CAS */
+/**********************************************/
 proc casutil;
 	load casdata='RAND_RETAILDEMO.sashdat' incaslib = 'samples'
 		 casout='RAND_RETAILDEMO' outcaslib = 'casuser' replace;
 quit;
 
 
+
+/*****************************************/
+/* Run SQL on the distributed CAS server */
+/*****************************************/
 /* To run SQL in the distributed CAS server you must use FedSQL with the sessref = option and the CAS session name */
 
 /* Simple LIMIT */
@@ -37,5 +47,8 @@ proc fedsql sessref=conn;
 quit;
 
 
+
+/**********************************/
 /* Disconnect from the CAS server */
+/**********************************/
 cas conn terminate;
